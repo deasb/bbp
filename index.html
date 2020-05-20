@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Baca Bareng Puan!</title>
+
+    <!-- this is for mobile screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="https://empuan.id/wp-content/uploads/2020/05/P.png"
+    />
+
+    <!-- this is for our css files - we have to link our html file to the css files -->
+    <link rel="stylesheet" media="all" href="../component/styles/setup.css" />
+    <link rel="stylesheet" media="all" href="../component/styles/says.css" />
+    <link rel="stylesheet" media="all" href="../component/styles/reply.css" />
+    <link rel="stylesheet" media="all" href="../component/styles/typing.css" />
+    <link rel="stylesheet" media="all" href="../component/styles/input.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Jost:400,600,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- css stylesheet for the background of the web page (no need to worry about this) -->
+    <style>
+      body {
+        background: #FFFFFF;
+      }
+      .bubble-container {
+        height: 100vh;
+      }
+      .bubble-container .input-wrap textarea {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- header for the chatbot  -->
+    <div id="chat">
+      <div class="header">
+        <img
+          src="https://empuan.id/wp-content/uploads/2020/05/P.png"
+          width="40px;"
+        />
+        <div>
+          <h1>Baca Bareng Puan</h1>
+          <p>Cari tahu buku feminis!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- This is to power the chatbot, you do not need to worry about this area -->
+    <script src="../component/js/Bubbles.js"></script>
+    <script>
+      var chatWindow = new Bubbles(
+        document.getElementById("chat"),
+        "chatWindow",
+        {
+          inputCallbackFn: function(o) {
+            // this is for the bot - don't worry
+            var match = function(key) {
+              setTimeout(function() {
+                chatWindow.talk(convo, key); // restart current convo from point found in the answer
+              }, 600);
+            };
+
+            // sanitize text for search function - for the bot
+            var strip = function(text) {
+              return text
+                .toLowerCase()
+                .replace(/[\s.,\/#!$%\^&\*;:{}=\-_'"`~()]/g, "");
+            };
+
+            // search function -  for the bot
+            var found = false;
+            o.convo[o.standingAnswer].reply.forEach(function(e, i) {
+              strip(e.human_response).includes(strip(o.input)) &&
+              o.input.length > 0
+                ? (found = e.bot_answer)
+                : found
+                ? null
+                : (found = false);
+            });
+            found ? match(found) : miss();
+          }
+        }
+      ); // section for setting up bot is finished.
+
+      // This is where your conversation is going to happen! Only focus here!
+      var convo = {
+        // first section
+        intro: {
+          bot_says: [
+            "Halo! Salam kenal. Namaku Puan. Disini aku akan membantu kamu untuk mencari buku bacaan terkait feminisme",
+            "<img src=https://media.giphy.com/media/JEhCPFfqi2Hy8/giphy.gif>"
+          ],
+          human_reply: [
+            {
+              human_response: "Wah keren. Rekomendasiin aku buku bacaan dong.",
+              bot_answer: "tanya"
+            }
+          ]
+        },
+
+        //second section
+
+        tanya: {
+          bot_says: [
+            "Kalau boleh tahu, kamu mau cari buku seperti apa?",
+            "<img src=https://media.giphy.com/media/3o7btW1Js39uJ23LAA/giphy.gif>"
+          ],
+          human_reply: [
+            {
+              human_response: "Feminisme untuk Pemula",
+              bot_answer: "01pemula"
+            },
+            {
+              human_response: "Pemikir Feminisme",
+              bot_answer: "02pemikir"
+            },
+            {
+              human_response: "Sejarah Gerakan Perempuan Indonesia",
+              bot_answer: "03sejarah"
+            },
+            {
+              human_response: "Feminisme dan Lingkungan",
+              bot_answer: "04lingkungan"
+            },
+            {
+              human_response: "Feminisme dan Hubungan Internasional",
+              bot_answer: "05hubunganinternasional"
+            },
+            {
+              human_response: "Feminisme dan Politik",
+              bot_answer: "06politik"              
+            },
+            {
+              human_response: "Feminisme dan Islam",
+              bot_answer: "07islam" 
+            }
+          ]
+        },
+
+        //01 section
+        "01pemula": {
+          bot_says: [
+            "Untuk buku feminis pemula kamu bisa baca buku yang ditulis oleh perempuan Indonesia:",
+            "- Membunuh Hantu-Hantu Patriarki karya Dea Safira, <br> - Muslimah yang Diperdebatkan karya Kalis Mardiasih, <br> - Membicarakan Feminisme karya Nadya Karima Melati, <br> - Akibat Menabukan Seks karya Esther Pandiangan, ",
+            "Atau beberapa buku feminisme dari luar negeri",
+            "- Feminist Thought karya Rosemarie Tong, <br> - Feminism is for Everybody karya Bell Hooks, <br> - We Should All Be Feminists karya Chimamanda Ngozi Adichie "
+          ],
+          human_reply: [
+            {
+              human_response: "Makasih Puan!",
+              bot_answer: "bye"
+            }
+          ]
+        },
+        
+        //02 section
+        "02pemikir": {
+          bot_says: [
+            "Untuk membaca karya-karya pemikir perempuan, kamu bisa baca buku yang ditulis oleh perempuan : ",
+            "- Filsafat Berperspektif Feminis karya Gadis Arivia, <br> - Ibuisme Negara karya Julia Suryakusumah, <br> - Second Sex karya Simone De Beauvoir"
+          ],
+          human_reply: [
+            {
+              human_response: "Makasih Puan!",
+              bot_answer: "bye"
+            }
+          ]
+        },
+        //03 section
+        "03sejarah": {
+          bot_says: [
+            "Untuk memahami feminisme di Indoneisa, kita harus baca sejarah perempuan Indonesia. Kamu bisa baca:",
+            "- Sejarah Perempuan Indonesia: Gerakan & Pencapaian karya Cora Vreede-de Stuers, <br> - Kongres Perempuan Pertama: Tinjauan Ulang oleh Susan Blackburn, <br> - Penghancuran Gerakan Perempuan di Indonesia oleh Saskia E. Wieringa <br> - Indonesian Women’s Movements: Making Democracy Gender Responsive oleh Women’s Research Institute"
+          ],
+          human_reply: [
+            {
+              human_response: "Makasih Puan",
+              bot_answer: "bye"
+            }
+          ]
+        },
+
+        //04 section
+        "04lingkungan": {
+          bot_says: [
+            "Untuk memahami bagaimana keterkaitan perempuan dan lingkungan, kamu bisa baca buku-buku ini:",
+            "- Ekofeminisme karya Vandana Shiva dan Maria Mies, <br> - Ekofeminisme jilid 1, 2, & 3 karya Dewi Candraningrum <br> - Sistah Vegan karya A. Breeze"
+          ],
+          human_reply: [
+            {
+              human_response: "Makasih Puan!",
+              bot_answer: "bye"
+            }
+          ]
+        },
+
+
+
+        //05 section
+        "05hubunganinternasional": {
+          bot_says: [
+            "Untuk mengetahui bagaimana keadaan perempuan berkaitan erat dengan politik dunia, kamu bisa baca: ",
+            "- Ekofeminisme karya Vandana Shiva dan Maria Mies, <br> - Putih: Warna Kulit, Ras, dan Kecantikan di Indonesia Transnasional karya L. Ayu Saraswati <br> - Bananas, Beaches and Bases karya Cynthia Enloe, <br> - Patriarchy and Accumulation on A World Scale karya Maria Mies"
+          ],
+          human_reply: [
+            {
+              human_response: "Makasih Puan!",
+              bot_answer: "bye"
+            }
+          ]
+        },
+        //06 section
+        "06politik": {
+          bot_says: [
+            "Yang politis adalah hal yang personal, kamu bisa baca: ",
+            "- Ekofeminisme karya Vandana Shiva dan Maria Mies, <br> - Putih: Warna Kulit, Ras, dan Kecantikan di Indonesia Transnasional karya L. Ayu Saraswati <br> - Bananas, Beaches and Bases karya Cynthia Enloe, <br> - Patriarchy and Accumulation on A World Scale karya Maria Mies <br> - The Sexual Politics of Meat: A Feminist-Vegetarian Critical Theory karya Carol J. Adams"
+          ],          
+          human_reply: [
+            {
+              human_response: "Makasih Puan!",
+              bot_answer: "bye"
+            }
+          ]
+        },        
+        //07 section
+        "07islam": {
+          bot_says: [
+            "Apakah feminisme sejalan dengan Islam? Yuk coba dibaca buku-buku berikut: ",
+            "- Qur'an Menurut Perempuan karya Amina Wadud, <br> - Kemuliaan Perempuan dalam Islam karya Musdah Mulia, <br> - Muslimah Reformis karya Musdah Mulia, <br> - Kemuliaan Perempuan dalam Islam karya Musdah Mulia, <br> - Menuju Kemandiriaan Politik Perempuan karya Musdah Mulia, <br> - Potret Perempuan Muslim Progresif Indonesia karya Neng Dara Afiah, <br> - Islam, Kepemimpinan Perempuan dan Seksualitas karya Neng Dara Afiah, <br> - Muslimah yang Diperderbatkan karya Kalis Mardiasih, <br> - Sister Fillah, You Will Never Be Alone karya Kalis Mardiasih, <br> Qiraah Mubaadalah karya Faqihuddin Abdul Qodir, <br> - 60 Hadis Shahih Hak-hak Perempuan dalam Islam karya Faqihuddin Abdul Qadir, <br> - Fiqh Perempuan karya Husein Muhammad"
+          ],          
+          human_reply: [
+            {
+              human_response: "Makasih Puan!",
+              bot_answer: "bye"
+            }
+          ]
+        },        
+        //bye section
+        bye: {
+          bot_says: [
+            "Apakah ada buku lain yang ingin kamu ketahui?",
+            "<img src=https://media.giphy.com/media/Wp0ZtQjgViqR2/giphy.gif>"
+          ],
+          human_reply: [
+            {
+              human_response: "Tidak",
+              bot_answer: "bye2"
+            },
+            {
+              human_response: "Ya",
+              bot_answer: "tanya"
+            }
+          ]
+        },
+
+        //bye2 section
+        bye2: {
+          bot_says: ["Oke, semoga kamu bisa menemukan buku yang kamu cari!"],
+          human_reply: [
+            {
+              human_response: "Terima kasih",
+              bot_answer: "#"
+            }
+          ]
+        }
+
+        //make sure you always keep this as this closes line 76!!!!!!
+      };
+      //make sure you always keep this as this closes line 76!!!!!!
+
+      //Do not worry about this!
+      chatWindow.talk(convo);
+    </script>
+  </body>
+</html>
